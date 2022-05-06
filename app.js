@@ -2,10 +2,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-app.get('/', (req, res) => {
-  res.send('Hello Everybody!');
-});
-
 app.use(express.json());
 app.use(cors());
 
@@ -16,36 +12,36 @@ const books = [
 ];
 
 app.get('/', (req, res) => {
-  res.send('Morning!');
+  res.send('Welcome to your library!');
 });
 
-app.get('/cats', (req, res) => {
-  res.json(cats);
+app.get('/books', (req, res) => {
+  res.json(books);
 });
 
-app.get('/cats/:id', (req, res) => {
+app.get('/books/:id', (req, res) => {
   try {
-    const catId = parseInt(req.params.id);
-    const cat = cats[catId - 1];
-    if (!cat) {
-      throw new Error('This cat does not exist');
+    const bookId = parseInt(req.params.id);
+    const book = books[bookId - 1];
+    if (!book) {
+      throw new Error('This book does not exist');
     } else {
-      res.send(cat);
+      res.send(book);
     }
   } catch (err) {
     res.status(404).send({ message: err.message });
   }
 });
 
-app.post('/cats', (req, res) => {
-  const lastId = cats.length;
-  const newCatId = cats.length + 1;
-  const newCat = { ...req.body, adopted: false, id: newCatId };
-  cats.push(newCat);
-  res.status(201).send(newCat);
+app.post('/books', (req, res) => {
+  const lastId = books.length;
+  const newBookId = lastId + 1;
+  const newBook = { ...req.body, id: newBookId };
+  books.push(newBook);
+  res.status(201).send(newBook);
 });
 
-app.delete('/cats', (req, res) => {
+app.delete('/books', (req, res) => {
   res.status(204).end();
 });
 

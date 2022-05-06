@@ -14,31 +14,31 @@ describe('api server', () => {
   });
 
   test('it responds to get / with status 200', (done) => {
-    request(api).get('/cats').expect(200, done);
+    request(api).get('/books').expect(200, done);
   });
 
-  test('it responds to delete /cats with status 404', (done) => {
-    request(api).delete('/cats').expect(204, done);
+  test('it responds to delete /books with status 404', (done) => {
+    request(api).delete('/books').expect(204, done);
   });
 
-  it('responds to post /cats with status 201', (done) => {
+  it('responds to post /books with status 201', (done) => {
     const testData = {
-      name: 'Felix',
-      age: 12345,
+      name: 'The Seasons of Life',
+      author: 'Jim Rohn',
     };
 
     request(api)
-      .post('/cats')
+      .post('/books')
       .send(testData)
       .expect(201)
-      .expect({ ...testData, adopted: false, id: 4 }, done);
+      .expect({ ...testData, id: 4 }, done);
   });
 
-  it('responds to an unknown cat id with a 404', (done) => {
+  it('responds to an unknown book id with a 404', (done) => {
     request(api)
-      .get('/cats/42')
+      .get('/books/42')
       .expect(404)
-      .expect({ message: 'This cat does not exist' }, done);
+      .expect({ message: 'This book does not exist' }, done);
   });
 
   afterAll((done) => {
